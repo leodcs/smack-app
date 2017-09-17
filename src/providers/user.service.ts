@@ -16,7 +16,6 @@ export class UserService extends BaseService {
   }
 
   createUser(user: User) {
-    console.log(user);
     return this.database
       .object('/users/' + user.uid)
       .set(user)

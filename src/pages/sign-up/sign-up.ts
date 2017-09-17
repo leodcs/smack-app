@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, ToastController } from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, NavController, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
 import { UserService } from "../../providers/user.service";
 import { AuthService } from "../../providers/auth.service";
 import { emailRegexp } from "../../environment";
+import { HomePage } from "../home/home";
 
 @IonicPage()
 @Component({
@@ -18,7 +20,8 @@ export class SignUpPage {
               private authService: AuthService,
               private toastCtrl: ToastController,
               private loadingCtrl: LoadingController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private navCtrl: NavController) {
     this.signUpForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -53,6 +56,7 @@ export class SignUpPage {
                     message: "Cadastrado com sucesso.",
                     duration: 2000
                   }).present();
+                  this.navCtrl.setRoot(HomePage);
                 })
                 .catch((error: any) => {
                   loading.dismiss();
