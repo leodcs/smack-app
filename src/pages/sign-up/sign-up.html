@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding no-bounce>
   <h1 text-center>
     <ion-icon class="auth-icon" name="person-add" color="primary"></ion-icon>
   </h1>
@@ -15,20 +15,20 @@
   <form [formGroup]="signUpForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
     <ion-list>
       <ion-item>
-        <ion-icon name="person" item-left></ion-icon>
+        <ion-icon name="person" item-left color="primary"></ion-icon>
         <ion-input type="text" placeholder="Nome" formControlName="name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-icon name="at" item-left></ion-icon>
+        <ion-icon name="at" item-left color="primary"></ion-icon>
         <ion-input type="text" placeholder="Nome de usuário" formControlName="username"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-icon name="mail" item-left></ion-icon>
+        <ion-icon name="mail" item-left color="primary"></ion-icon>
         <ion-input type="mail" placeholder="E-mail" formControlName="email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-icon name="lock" item-left></ion-icon>
-        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+        <ion-icon name="lock" item-left color="primary"></ion-icon>
+        <ion-input type="password" placeholder="Senha" formControlName="password"></ion-input>
       </ion-item>
     </ion-list>
 

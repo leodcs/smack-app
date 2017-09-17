@@ -4,7 +4,6 @@ import 'rxjs/add/operator/map';
 import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
 import { User } from "../models/user.model";
 import { BaseService } from "./base.service";
-import { map } from "rxjs/operator/map";
 import { Observable } from "rxjs/Observable";
 
 @Injectable()

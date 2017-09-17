@@ -43,7 +43,7 @@ export class SignUpPage {
               }).present();
             }else{
               loading.dismiss();
-              this.authService.signIn(formUser.email, formUser.password)
+              this.authService.signUp(formUser.email, formUser.password)
                 .then((user) => {
                   formUser.uid = user.uid;
                   delete formUser.password;

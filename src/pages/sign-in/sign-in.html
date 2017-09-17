@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Iniciar sessão</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding no-bounce>
+  <h1 text-center>
+    <ion-icon class="auth-icon" name="chatboxes" color="primary"></ion-icon>
+  </h1>
+
+  <h5 text-center>Olá, seja bem-vindo! Entre com o seu email e senha.</h5>
+  <br>
+
+  <form [formGroup]="signInForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+    <ion-list>
+      <ion-item>
+        <ion-icon name="mail" item-left color="primary"></ion-icon>
+        <ion-input type="text" placeholder="E-mail" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="lock" item-left color="primary"></ion-icon>
+        <ion-input type="password" placeholder="Senha" formControlName="password"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <button ion-button type="submit" full>Entrar</button>
+    <button ion-button clear full [navPush]="signUpPage">Ainda não tem uma conta? Cadastre-se.</button>
+  </form>
+</ion-content>

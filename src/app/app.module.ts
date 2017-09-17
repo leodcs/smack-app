@@ -13,6 +13,7 @@ import { UserService } from "../providers/user.service";
 import { AngularFireDatabase } from "angularfire2/database";
 import { AuthService } from "../providers/auth.service";
 import { AngularFireAuth } from "angularfire2/auth";
+import { SignInPageModule } from "../pages/sign-in/sign-in.module";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AngularFireAuth } from "angularfire2/auth";
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    SignUpPageModule
+    SignUpPageModule,
+    SignInPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

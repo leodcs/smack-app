@@ -10,8 +10,16 @@ export class AuthService extends BaseService {
     super();
   }
 
-  signIn(email:string, password:string) {
+  signUp(email:string, password:string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+      .catch(this.handlePromiseError);
+  }
+
+  signIn(email:string, password:string) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password).
+      then((user) => {
+        return(user);
+      })
       .catch(this.handlePromiseError);
   }
 }
