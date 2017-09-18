@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { AngularFireModule } from "angularfire2";
 import { firebaseConfig } from "../environment";
 import { SignUpPageModule } from "../pages/sign-up/sign-up.module";
@@ -14,23 +13,29 @@ import { AngularFireDatabase } from "angularfire2/database";
 import { AuthService } from "../providers/auth.service";
 import { AngularFireAuth } from "angularfire2/auth";
 import { SignInPageModule } from "../pages/sign-in/sign-in.module";
+import { HomePageModule } from "../pages/home/home.module";
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      platforms: {
+        android: {
+          tabsPlacement: 'top'
+        }
+      }
+    }),
     AngularFireModule.initializeApp(firebaseConfig),
+    HomePageModule,
     SignUpPageModule,
     SignInPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   providers: [
     StatusBar,

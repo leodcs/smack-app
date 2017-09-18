@@ -3,10 +3,10 @@ import 'rxjs/add/operator/map';
 import { AngularFireAuth } from "angularfire2/auth";
 import { BaseService } from "./base.service";
 
-
 @Injectable()
 export class AuthService extends BaseService {
-  constructor(private afAuth: AngularFireAuth) {
+
+  constructor(public afAuth: AngularFireAuth) {
     super();
   }
 
@@ -17,9 +17,13 @@ export class AuthService extends BaseService {
 
   signIn(email:string, password:string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).
-      then((user) => {
-        return(user);
-      })
+    then((user) => {
+      return(user);
+    })
       .catch(this.handlePromiseError);
+  }
+
+  signOut() {
+    return this.afAuth.auth.signOut();
   }
 }

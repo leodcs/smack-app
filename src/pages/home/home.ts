@@ -1,33 +1,24 @@
 import { Component } from '@angular/core';
-import { SignUpPage } from "../sign-up/sign-up";
-import { UserService } from "../../providers/user.service";
+import { IonicPage, NavController } from 'ionic-angular';
 
-import { User } from "../../models/user.model";
+/**
+ * Generated class for the HomePage tabs.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  signUpPage = SignUpPage;
-  users:User[];
-  finishLoadingUsers:boolean = false;
 
-  constructor(private userService: UserService) {}
+  chatsRoot = 'ChatsPage'
+  usersRoot = 'UsersPage'
 
-  ionViewWillEnter() {
-    this.userService.getUsers().subscribe(
-      (fetchedUsers) => {
-        this.finishLoadingUsers = true;
-        this.users = fetchedUsers;
-      },
-      (error) => {
-        console.warn(error);
-      }
-    );
-  }
 
-  onChatCreate(user: User):void {
-    console.log(user);
-  }
+  constructor(public navCtrl: NavController) {}
+
 }

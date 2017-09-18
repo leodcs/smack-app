@@ -13,6 +13,7 @@ import { HomePage } from "../home/home";
 export class SignInPage {
   signUpPage = SignUpPage;
   signInForm: FormGroup;
+  homePage = HomePage;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,

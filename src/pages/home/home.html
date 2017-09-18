@@ -1,19 +1,4 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding no-bounce>
-  <div text-center *ngIf="!finishLoadingUsers">
-    <ion-spinner></ion-spinner>
-  </div>
-  <ion-list>
-    <button ion-item *ngFor="let user of users" (click)="onChatCreate(user)">
-      {{ user.name }}
-    </button>
-  </ion-list>
-  <button ion-button block [navPush]="signUpPage">Cadastrar-se</button>
-</ion-content>
+<ion-tabs secondary>
+    <ion-tab [root]="chatsRoot" tabTitle="Conversas" tabIcon="chatbubbles"></ion-tab>
+    <ion-tab [root]="usersRoot" tabTitle="Usuários" tabIcon="people"></ion-tab>
+</ion-tabs>
