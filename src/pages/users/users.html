@@ -1,8 +1,6 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Usuários</ion-title>
-  </ion-navbar>
+  <custom-logged-header title="Usuários"></custom-logged-header>
 
 </ion-header>
 
@@ -10,7 +8,7 @@
 <ion-content padding>
   <div text-center *ngIf="!finishLoadingUsers">
     <ion-spinner></ion-spinner>
-    <p>Carregando usuários</p>
+    <p>Carregando lista de usuários</p>
   </div>
   <ion-list>
     <button ion-item *ngFor="let user of users" (click)="onChatCreate(user)">

@@ -15,8 +15,8 @@ import { IonicPage, NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  chatsRoot = 'ChatsPage'
-  usersRoot = 'UsersPage'
+  chatsRoot = 'ChatsPage';
+  usersRoot = 'UsersPage';
 
 
   constructor(public navCtrl: NavController) {}
