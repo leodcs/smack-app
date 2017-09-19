@@ -52,12 +52,13 @@ export class SignUpPage {
                   delete formUser.password;
                   const uuid:string = user.uid;
                   this.userService.createUser(formUser, uuid);
-                  loading.dismiss();
                   this.toastCtrl.create({
                     message: "Cadastrado com sucesso.",
                     duration: 2000
                   }).present();
-                  this.navCtrl.setRoot(HomePage);
+                  this.navCtrl.setRoot(HomePage).then(() => {
+                    loading.dismiss();
+                  });
                 })
                 .catch((error: any) => {
                   loading.dismiss();

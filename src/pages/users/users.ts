@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { User } from "../../models/user.model";
 import { UserService } from "../../providers/user.service";
+import { ChatPage } from "../chat/chat";
 
 @IonicPage()
 @Component({
@@ -12,7 +13,8 @@ export class UsersPage {
   users:User[];
   finishLoadingUsers:boolean = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+              private navCtrl: NavController) {}
 
   ionViewWillEnter() {
     this.userService.getUsers().subscribe(
@@ -27,6 +29,8 @@ export class UsersPage {
   }
 
   onChatCreate(user: User):void {
-    console.log(user);
+    this.navCtrl.push(ChatPage, {
+      recipientUser: user
+    });
   }
 }

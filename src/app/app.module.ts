@@ -14,6 +14,7 @@ import { AuthService } from "../providers/auth.service";
 import { AngularFireAuth } from "angularfire2/auth";
 import { SignInPageModule } from "../pages/sign-in/sign-in.module";
 import { HomePageModule } from "../pages/home/home.module";
+import { ChatPageModule } from "../pages/chat/chat.module";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { HomePageModule } from "../pages/home/home.module";
     AngularFireModule.initializeApp(firebaseConfig),
     HomePageModule,
     SignUpPageModule,
-    SignInPageModule
+    SignInPageModule,
+    ChatPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

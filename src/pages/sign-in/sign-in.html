@@ -19,7 +19,7 @@
     <ion-list>
       <ion-item>
         <ion-icon name="mail" item-left color="primary"></ion-icon>
-        <ion-input type="text" placeholder="E-mail" formControlName="email"></ion-input>
+        <ion-input type="mail" placeholder="E-mail" formControlName="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-icon name="lock" item-left color="primary"></ion-icon>
@@ -29,6 +29,6 @@
 
     <button ion-button type="submit" full [disabled]="signInForm.invalid">Entrar</button>
     <button ion-button clear full [navPush]="signUpPage">Ainda não tem uma conta? Cadastre-se.</button>
-    <!--<button ion-button full [navPush]="homePage" type="button">Auto Login</button>-->
+    <button ion-button full [navPush]="homePage" type="button">Auto Login</button>
   </form>
 </ion-content>
