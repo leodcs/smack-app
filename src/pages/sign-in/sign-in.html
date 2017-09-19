@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Iniciar sessão</ion-title>
+    <ion-title>Smack!</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -27,8 +27,8 @@
       </ion-item>
     </ion-list>
 
-    <button ion-button type="submit" full>Entrar</button>
+    <button ion-button type="submit" full [disabled]="signInForm.invalid">Entrar</button>
     <button ion-button clear full [navPush]="signUpPage">Ainda não tem uma conta? Cadastre-se.</button>
-    <button ion-button full [navPush]="homePage" type="button">Auto Login</button>
+    <!--<button ion-button full [navPush]="homePage" type="button">Auto Login</button>-->
   </form>
 </ion-content>

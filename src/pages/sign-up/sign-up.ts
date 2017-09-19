@@ -48,9 +48,10 @@ export class SignUpPage {
               loading.dismiss();
               this.authService.signUp(formUser.email, formUser.password)
                 .then((user) => {
-                  formUser.uid = user.uid;
+                  // formUser.uid = user.uid;
                   delete formUser.password;
-                  this.userService.createUser(formUser);
+                  const uuid:string = user.uid;
+                  this.userService.createUser(formUser, uuid);
                   loading.dismiss();
                   this.toastCtrl.create({
                     message: "Cadastrado com sucesso.",

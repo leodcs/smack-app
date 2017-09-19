@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController } from 'ionic-angular';
 import { SignUpPage } from "../sign-up/sign-up";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../providers/auth.service";
 import { HomePage } from "../home/home";
+import { emailRegexp } from "../../environment";
 
 @IonicPage()
 @Component({
@@ -21,7 +22,7 @@ export class SignInPage {
               private navCtrl: NavController,
               private alertCtrl: AlertController) {
     this.signInForm = this.formBuilder.group({
-      email: [''],
+      email: ['', Validators.compose([Validators.required, Validators.pattern(emailRegexp)])],
       password: ['']
     });
   }

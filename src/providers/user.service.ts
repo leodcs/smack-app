@@ -15,9 +15,9 @@ export class UserService extends BaseService {
     this.users = this.getUsers();
   }
 
-  createUser(user: User) {
+  createUser(user: User, uuid:string) {
     return this.database
-      .object('/users/' + user.uid)
+      .object('/users/' + uuid)
       .set(user)
       .catch(this.handlePromiseError);
   }

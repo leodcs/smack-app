@@ -26,4 +26,8 @@ export class AuthService extends BaseService {
   signOut() {
     return this.afAuth.auth.signOut();
   }
+
+  isAuthenticated():boolean{
+    return this.afAuth.auth.currentUser != null;
+  }
 }

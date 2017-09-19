@@ -1,18 +1,12 @@
-import { AlertController, App, MenuController, NavController } from "ionic-angular";
+import { AlertController, App } from "ionic-angular";
 import { AuthService } from "../providers/auth.service";
-import { OnInit } from "@angular/core";
 import { SignInPage } from "../pages/sign-in/sign-in";
 
-export abstract class BaseComponent implements OnInit {
-  protected navCtrl: NavController;
+export abstract class BaseComponent {
 
   constructor(public alertCtrl: AlertController,
               public authService: AuthService,
-              public app: App,
-              public menuCtrl: MenuController) {}
-
-  ngOnInit() {
-    this.navCtrl = this.app.getActiveNav();
+              public appCtrl: App) {
   }
 
   onSignOut() {
@@ -28,7 +22,7 @@ export abstract class BaseComponent implements OnInit {
           handler: () => {
             this.authService.signOut()
               .then(()=>{
-                this.navCtrl.setRoot(SignInPage);
+                this.appCtrl.getRootNav().setRoot(SignInPage);
               });
           }
         }
