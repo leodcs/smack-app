@@ -3,6 +3,7 @@ import { IonicPage, NavController } from 'ionic-angular';
 import { User } from "../../models/user.model";
 import { UserService } from "../../providers/user.service";
 import { ChatPage } from "../chat/chat";
+import { AuthService } from "../../providers/auth.service";
 
 @IonicPage()
 @Component({
@@ -16,7 +17,7 @@ export class UsersPage {
   constructor(private userService: UserService,
               private navCtrl: NavController) {}
 
-  ionViewWillEnter() {
+  ionViewWillLoad() {
     this.userService.getUsers().subscribe(
       (fetchedUsers) => {
         this.finishLoadingUsers = true;

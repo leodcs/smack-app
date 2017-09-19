@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { AuthService } from "../../providers/auth.service";
+import { UserService } from "../../providers/user.service";
 
 /**
  * Generated class for the HomePage tabs.

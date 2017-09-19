@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import 'rxjs/add/operator/map';
 
-import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from "angularfire2/database";
 import { User } from "../models/user.model";
 import { BaseService } from "./base.service";
 import { Observable } from "rxjs/Observable";
+import { AuthService } from "./auth.service";
+import * as firebase from "firebase/app";
 
 @Injectable()
 export class UserService extends BaseService {
   users:FirebaseListObservable<User[]>;
 
-  constructor(public database: AngularFireDatabase) {
+  constructor(public database: AngularFireDatabase,
+              private authService: AuthService) {
     super();
-    this.users = this.getUsers();
   }
 
   createUser(user: User, uuid:string) {
@@ -23,7 +25,8 @@ export class UserService extends BaseService {
   }
 
   getUsers():FirebaseListObservable<User[]> {
-    return this.database.list('/users');
+    this.setUsers();
+    return this.users;
   }
 
   usernameExists(username: string):Observable<any> {
@@ -35,5 +38,16 @@ export class UserService extends BaseService {
     }).map((users: User[]) => {
       return users.length > 0;
     }).catch(this.handleObservableError);
+  }
+
+  private setUsers() {
+    this.users = <FirebaseListObservable<User[]>> this.database.list('/users', {
+      query: {
+        orderByChild: 'name'
+      }
+    })
+      .map((users: User[]) => {
+        return users.filter((user: User) => user.$key !== this.authService.currentUser.uid);
+      });
   }
 }
