@@ -10,12 +10,11 @@ import { AuthService } from "./auth.service";
 @Injectable()
 export class UserService extends BaseService {
   users:FirebaseListObservable<User[]>;
-  currentUser: User;
+  user: User;
 
   constructor(public database: AngularFireDatabase,
               private authService: AuthService) {
     super();
-    this.setCurrentUser();
   }
 
   createUser(user: User, uuid:string) {
@@ -52,10 +51,15 @@ export class UserService extends BaseService {
       });
   }
 
-  setCurrentUser():void {
-    this.database.object('/users/' + this.authService.currentUser.uid)
-      .subscribe((user) => {
-        this.currentUser = new User(user.name, user.email, user.username, user.avatar, user.$key);
+  getUserById(uid:string):User {
+    this.database.object('/users/' + uid)
+      .subscribe((user: User) => {
+        this.user = new User(user.name, user.email, user.username, user.avatar, user.$key);
       });
+    return this.user;
+  }
+
+  get currentUser() {
+    return this.getUserById(this.authService.currentUser.uid);
   }
 }

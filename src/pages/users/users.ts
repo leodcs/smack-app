@@ -45,7 +45,6 @@ export class UsersPage {
       .subscribe((chat) => {
         if (chat.hasOwnProperty('$value')){
           const timestamp: Object = firebase.database.ServerValue.TIMESTAMP;
-
           const firstChat = new Chat('', timestamp, recipientUser.name, '');
           this.chatService.create(firstChat, currentUser.$key, recipientUser.$key);
 

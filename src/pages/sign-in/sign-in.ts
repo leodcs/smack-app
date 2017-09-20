@@ -22,8 +22,8 @@ export class SignInPage {
               private navCtrl: NavController,
               private alertCtrl: AlertController) {
     this.signInForm = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.pattern(emailRegexp)])],
-      password: ['']
+      email: ['aleotory@gmail.com', Validators.compose([Validators.required, Validators.pattern(emailRegexp)])],
+      password: ['123mudar']
     });
   }
 

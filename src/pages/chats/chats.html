@@ -6,5 +6,21 @@
 
 
 <ion-content padding>
-  <!--<h1>{{ isAuthenticated }}</h1>-->
+  <div text-center *ngIf="!finishLoadingChats">
+    <ion-spinner></ion-spinner>
+    <p>Carregando lista de conversas</p>
+  </div>
+  <ion-list no-lines>
+    <button ion-item *ngFor="let chat of chats" (click)="onChatOpen(chat)">
+      <h2>{{ chat.title }}</h2>
+      <p *ngIf="chat.lastMessage; else customMessage">{{ chat.timestamp | date: 'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
+      <ng-template #customMessage>
+        <p>Sem mensagens ainda...</p>
+      </ng-template>
+    </button>
+    <div *ngIf="!chats.length && finishLoadingChats">
+      <p>Você ainda não iniciou uma conversa.</p>
+      <p>Clique na aba de <b>Usuários</b> para buscar um usuário cadastrado e iniciar uma conversa com ele.</p>
+    </div>
+  </ion-list>
 </ion-content>
