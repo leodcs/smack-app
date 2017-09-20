@@ -30,7 +30,6 @@ export class AuthService extends BaseService {
   isAuthenticated():boolean{
     return this.currentUser != null;
   }
-
   get currentUser() {
     return this.afAuth.auth.currentUser;
   }

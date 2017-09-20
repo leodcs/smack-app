@@ -15,6 +15,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { SignInPageModule } from "../pages/sign-in/sign-in.module";
 import { HomePageModule } from "../pages/home/home.module";
 import { ChatPageModule } from "../pages/chat/chat.module";
+import { ChatService } from '../providers/chat.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ChatPageModule } from "../pages/chat/chat.module";
     AngularFireDatabase,
     AuthService,
     AngularFireAuth,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ChatService,
   ]
 })
 export class AppModule {}
