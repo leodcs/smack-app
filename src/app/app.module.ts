@@ -23,6 +23,7 @@ import { ChatPageModule } from "../pages/chat/chat.module";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp, {
+      backButtonText: 'Voltar',
       platforms: {
         android: {
           tabsPlacement: 'top'

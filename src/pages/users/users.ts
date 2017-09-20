@@ -3,7 +3,6 @@ import { IonicPage, NavController } from 'ionic-angular';
 import { User } from "../../models/user.model";
 import { UserService } from "../../providers/user.service";
 import { ChatPage } from "../chat/chat";
-import { AuthService } from "../../providers/auth.service";
 
 @IonicPage()
 @Component({

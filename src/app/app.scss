@@ -22,3 +22,12 @@
 .toolbar-background {
   background-color: #eef1f1;
 }
+
+.platform-ios .ios-navbar {
+  height: 44px + $cordova-ios-statusbar-padding;
+  padding-top: $cordova-ios-statusbar-padding;
+}
+
+.ios-navbar .ios-title {
+  padding-top: $cordova-ios-statusbar-padding;
+}

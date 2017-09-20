@@ -1,12 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from "angularfire2/database";
+import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
 import { User } from "../models/user.model";
 import { BaseService } from "./base.service";
 import { Observable } from "rxjs/Observable";
 import { AuthService } from "./auth.service";
-import * as firebase from "firebase/app";
 
 @Injectable()
 export class UserService extends BaseService {
