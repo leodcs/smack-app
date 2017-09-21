@@ -5,8 +5,4 @@ export class Chat {
               public timestamp:any,
               public title:string,
               public photo:string) {}
-
-  set uid(uid:string) {
-    this.$key = uid;
-  }
 }

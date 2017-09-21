@@ -11,7 +11,7 @@
     <p>Carregando lista de conversas</p>
   </div>
   <ion-list no-lines>
-    <button ion-item *ngFor="let chat of chats" (click)="onChatOpen(chat)">
+    <button ion-item *ngFor="let chat of chats" (click)="onOpenChat(chat)">
       <h2>{{ chat.title }}</h2>
       <p *ngIf="chat.lastMessage; else customMessage">{{ chat.timestamp | date: 'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
       <ng-template #customMessage>

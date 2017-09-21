@@ -15,6 +15,7 @@ import { Chat } from "../../models/chat.model";
 export class UsersPage {
   users:User[];
   finishLoadingUsers:boolean = false;
+  chat:Chat;
 
   constructor(private userService: UserService,
               private navCtrl: NavController,
@@ -35,7 +36,7 @@ export class UsersPage {
   onChatCreate(recipientUser: User):void {
     this.checkExistingChatOrCreate(recipientUser);
     this.navCtrl.push(ChatPage, {
-      recipient: recipientUser
+      chat: this.chat
     });
   }
 
@@ -48,8 +49,12 @@ export class UsersPage {
           const firstChat = new Chat('', timestamp, recipientUser.name, '');
           this.chatService.create(firstChat, currentUser.$key, recipientUser.$key);
 
+          this.chat = firstChat;
+
           const secondChat = new Chat('', timestamp, currentUser.name, '');
           this.chatService.create(secondChat, recipientUser.$key, currentUser.$key);
+        }else {
+          this.chat = chat;
         }
       });
   }

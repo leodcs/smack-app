@@ -32,4 +32,12 @@ export class ChatService extends BaseService {
       return chats.reverse();
     }).catch(this.handlePromiseError)
   }
+
+  updateLastMessage(text:string, uuid1:string, uuid2:string){
+    this.getDeepChat(uuid1, uuid2)
+      .subscribe(() => {
+        this.database.object(`/chats/${uuid1}/${uuid2}`)
+          .update({ lastMessage: text });
+      });
+  }
 }

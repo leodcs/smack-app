@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { AuthService } from "../../providers/auth.service";
-import { UserService } from "../../providers/user.service";
 
 /**
  * Generated class for the HomePage tabs.
@@ -20,7 +19,7 @@ export class HomePage {
   chatsRoot = 'ChatsPage';
   usersRoot = 'UsersPage';
 
-  constructor(public navCtrl: NavController, private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   ionViewCanEnter() {
     // return this.authService.isAuthenticated();

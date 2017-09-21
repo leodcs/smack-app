@@ -25,8 +25,10 @@ import { MessageService } from "../providers/message.service";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp, {
-      backButtonText: 'Voltar',
       platforms: {
+        ios: {
+          backButtonText: 'Voltar'
+        },
         android: {
           tabsPlacement: 'top'
         }

@@ -2,23 +2,26 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from "angularfire2/database";
 import { BaseService } from "./base.service";
 import { Message } from "../models/message.model";
-import { AuthService } from "./auth.service";
 import * as firebase from "firebase/app";
+import { ChatService } from "./chat.service";
 
 @Injectable()
 export class MessageService extends BaseService {
   constructor(public database: AngularFireDatabase,
-              public authService: AuthService) {
+              private chatService: ChatService) {
     super();
   }
 
   create(text:string, uuid1:string, uuid2:string) {
-    const message = new Message(this.authService.currentUser.uid, text, firebase.database.ServerValue.TIMESTAMP);
-    const dbObject = this.database.list(`/messages/${uuid1}-${uuid2}`);
-    if ( dbObject ) {
-      dbObject.push(message);
+    const message = new Message(uuid1, text, firebase.database.ServerValue.TIMESTAMP);
+    const dbListOriginalOrder = this.dbList(`/messages/${uuid1}-${uuid2}`);
+    const inverseOrder = `/messages/${uuid2}-${uuid1}`;
+    if ( dbListOriginalOrder ) {
+      dbListOriginalOrder.push(message);
+      this.chatService.updateLastMessage(text, uuid1, uuid2);
     }else {
-      this.database.list(`/messages/${uuid2}-${uuid1}`).push(message);
+      this.dbList(inverseOrder).push(message);
+      this.chatService.updateLastMessage(text, uuid2, uuid1);
     }
   }
 
@@ -28,5 +31,9 @@ export class MessageService extends BaseService {
         orderByChild: 'timestamp'
       }
     }).catch(this.handleObservableError);
+  }
+
+  private dbList(path:string) {
+    return this.database.list(path);
   }
 }
