@@ -7,7 +7,7 @@
 <ion-content padding no-bounce>
   <ion-list no-lines>
     <ion-item *ngFor="let message of messages">
-      {{ message }}
+      {{ message.text }}
     </ion-item>
   </ion-list>
 </ion-content>
@@ -17,9 +17,9 @@
     <ion-item no-lines>
       <ion-input type="text"
                  placeholder="Mensagem..."
-                 [(ngModel)]="newMessage"
-                 (keyup.enter)="sendMessage(newMessage); newMessage=''"></ion-input>
-      <button icon-only ion-button item-right color="dark" (click)="sendMessage(newMessage); newMessage=''">
+                 [(ngModel)]="newMessageText"
+                 (keyup.enter)="sendMessage(newMessageText); newMessageText=''"></ion-input>
+      <button icon-only ion-button item-right color="dark" (click)="sendMessage(newMessageText); newMessageText=''">
         <ion-icon name="send"></ion-icon>
       </button>
     </ion-item>
