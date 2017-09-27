@@ -5,22 +5,22 @@ import { BaseService } from "./base.service";
 
 @Injectable()
 export class AuthService extends BaseService {
+  user: any;
+  authenticated:boolean = false;
 
   constructor(public afAuth: AngularFireAuth) {
     super();
   }
 
   signUp(email:string, password:string) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-      .catch(this.handlePromiseError);
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
   signIn(email:string, password:string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).
     then((user) => {
       return(user);
-    })
-      .catch(this.handlePromiseError);
+    });
   }
 
   signOut() {
@@ -28,8 +28,9 @@ export class AuthService extends BaseService {
   }
 
   isAuthenticated():boolean{
-    return this.currentUser != null;
+    return this.afAuth.auth.currentUser != null;
   }
+
   get currentUser() {
     return this.afAuth.auth.currentUser;
   }

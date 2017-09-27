@@ -8,15 +8,15 @@ import { MyApp } from './app.component';
 import { AngularFireModule } from "angularfire2";
 import { firebaseConfig } from "../environment";
 import { SignUpPageModule } from "../pages/sign-up/sign-up.module";
-import { UserService } from "../providers/user.service";
-import { AngularFireDatabase } from "angularfire2/database";
 import { AuthService } from "../providers/auth.service";
 import { AngularFireAuth } from "angularfire2/auth";
 import { SignInPageModule } from "../pages/sign-in/sign-in.module";
 import { HomePageModule } from "../pages/home/home.module";
 import { ChatPageModule } from "../pages/chat/chat.module";
-import { ChatService } from '../providers/chat.service';
-import { MessageService } from "../providers/message.service";
+import { UserProvider } from '../providers/user.provider';
+import { HttpModule } from "@angular/http";
+import { ChatProvider } from "../providers/chat.provider";
+import { MessageProvider } from '../providers/message.provider';
 
 @NgModule({
   declarations: [
@@ -38,6 +38,7 @@ import { MessageService } from "../providers/message.service";
     HomePageModule,
     SignUpPageModule,
     SignInPageModule,
+    HttpModule,
     ChatPageModule
   ],
   bootstrap: [IonicApp],
@@ -47,13 +48,12 @@ import { MessageService } from "../providers/message.service";
   providers: [
     StatusBar,
     SplashScreen,
-    UserService,
-    AngularFireDatabase,
-    AuthService,
-    AngularFireAuth,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ChatService,
-    MessageService
+    AngularFireAuth,
+    AuthService,
+    UserProvider,
+    ChatProvider,
+    MessageProvider
   ]
 })
 export class AppModule {}

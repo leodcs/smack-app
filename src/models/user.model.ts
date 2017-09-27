@@ -1,7 +1,7 @@
 export class User {
-  constructor(public name:string,
+  constructor(public uid:string,
+              public name:string,
               public email:string,
               public username:string,
-              public avatar:string,
-              public $key:string) {}
+              public avatar:string) {}
 }

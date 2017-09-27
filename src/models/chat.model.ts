@@ -1,8 +1,10 @@
-export class Chat {
-  public $key:string;
+import { User } from "./user.model";
 
-  constructor(public lastMessage:string,
-              public timestamp:any,
-              public title:string,
-              public photo:string) {}
+export class Chat {
+  constructor(public id: number,
+              public title: string,
+              public lastMessage: string,
+              public createdAt:string,
+              public users: User[]) {
+  }
 }

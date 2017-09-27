@@ -11,7 +11,7 @@
     <p>Carregando lista de usuários</p>
   </div>
   <ion-list>
-    <button ion-item *ngFor="let user of users" (click)="onChatCreate(user)">
+    <button ion-item *ngFor="let user of users" (click)="onUserClick(user)">
       {{ user.name }}
     </button>
   </ion-list>

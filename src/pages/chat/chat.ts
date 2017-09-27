@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
 import { AuthService } from "../../providers/auth.service";
 import { Message } from "../../models/message.model";
-import { MessageService } from "../../providers/message.service";
 import { Chat } from "../../models/chat.model";
+import { MessageProvider } from "../../providers/message.provider";
 
 @IonicPage()
 @Component({
@@ -14,41 +14,30 @@ export class ChatPage {
   messages:Message[] = [];
   pageTitle:string;
   chat:Chat;
-  sender;
 
-  constructor(public authService: AuthService,
+  constructor(private authService: AuthService,
               private navParams: NavParams,
-              private messageService: MessageService) {}
+              private messageProvider: MessageProvider) {}
 
   ionViewCanEnter() {
-    // return this.authService.isAuthenticated();
-    return true;
+    return this.authService.isAuthenticated();
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     this.chat = this.navParams.get('chat');
     this.pageTitle = this.chat.title;
-    this.sender = this.authService.currentUser;
     this.getMessages();
   }
 
   sendMessage(newMessageText: string) {
     if (newMessageText) {
-      this.messageService.create(newMessageText, this.sender.uid, this.chat.$key);
+      this.messageProvider.create(newMessageText, this.authService.currentUser.uid, this.chat.id)
+        .subscribe((message) => this.messages.push(message));
     }
   }
 
   private getMessages() {
-    this.messageService.getMessages(this.sender.uid, this.chat.$key)
-      .subscribe((messages1: Message[]) => {
-        if ( messages1.length > 0 ) {
-          this.messages = messages1;
-        } else{
-          this.messageService.getMessages(this.chat.$key, this.sender.uid)
-            .subscribe((messages2: Message[]) => {
-              this.messages = messages2;
-            });
-        }
-      });
+      this.messageProvider.getMessages(this.chat.id)
+        .subscribe((messages: Message[]) => this.messages = messages);
   }
 }

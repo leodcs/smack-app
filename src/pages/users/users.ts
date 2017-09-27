@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { User } from "../../models/user.model";
-import { UserService } from "../../providers/user.service";
-import { ChatPage } from "../chat/chat";
-import { ChatService } from "../../providers/chat.service";
-import * as firebase from "firebase/app";
 import { Chat } from "../../models/chat.model";
+import { UserProvider } from "../../providers/user.provider";
+import { ChatPage } from "../chat/chat";
+import { ChatProvider } from "../../providers/chat.provider";
+import { AuthService } from "../../providers/auth.service";
 
 @IonicPage()
 @Component({
@@ -13,50 +13,40 @@ import { Chat } from "../../models/chat.model";
   templateUrl: 'users.html',
 })
 export class UsersPage {
-  users:User[];
+  users: User[];
   finishLoadingUsers:boolean = false;
   chat:Chat;
 
-  constructor(private userService: UserService,
-              private navCtrl: NavController,
-              private chatService: ChatService) {}
+  constructor(private navCtrl: NavController,
+              private userProvider: UserProvider,
+              private chatProvider: ChatProvider,
+              private authService: AuthService) {}
+
+  ionViewCanEnter() {
+    return this.authService.isAuthenticated();
+  }
 
   ionViewWillLoad() {
-    this.userService.getUsers().subscribe(
-      (fetchedUsers) => {
+    this.userProvider.getUsers()
+      .subscribe((allUsers) => {
+        this.users = allUsers.filter((user: User) => user.uid !== this.authService.currentUser.uid);
         this.finishLoadingUsers = true;
-        this.users = fetchedUsers;
-      },
-      (error) => {
-        console.warn(error);
-      }
-    );
+      })
   }
 
-  onChatCreate(recipientUser: User):void {
-    this.checkExistingChatOrCreate(recipientUser);
-    this.navCtrl.push(ChatPage, {
-      chat: this.chat
-    });
-  }
-
-  private checkExistingChatOrCreate(recipientUser: User) {
-    const currentUser = this.userService.currentUser;
-    this.chatService.getDeepChat(currentUser.$key, recipientUser.$key)
-      .subscribe((chat) => {
-        if (chat.hasOwnProperty('$value')){
-          const timestamp: Object = firebase.database.ServerValue.TIMESTAMP;
-          const firstChat = new Chat('', timestamp, recipientUser.name, '');
-          this.chatService.create(firstChat, currentUser.$key, recipientUser.$key);
-
-          this.chat = firstChat;
-
-          const secondChat = new Chat('', timestamp, currentUser.name, '');
-          this.chatService.create(secondChat, recipientUser.$key, currentUser.$key);
-        }else {
-          this.chat = chat;
+  onUserClick(recipientUser: User):void {
+    this.chatProvider.findChat(this.authService.currentUser.uid, recipientUser.uid)
+      .subscribe((existingChat) => {
+        if (existingChat) {
+          this.chat = existingChat;
+          this.navCtrl.push(ChatPage, { chat: this.chat });
+        }else{
+          this.chatProvider.createChat(this.authService.currentUser.uid, recipientUser.uid)
+            .subscribe((newChat: Chat) => {
+              this.chat = newChat;
+              this.navCtrl.push(ChatPage, { chat: this.chat });
+            });
         }
       });
   }
-
 }
