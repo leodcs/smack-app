@@ -5,6 +5,7 @@ import { Message } from "../../models/message.model";
 import { Chat } from "../../models/chat.model";
 import { MessageProvider } from "../../providers/message.provider";
 import { Broadcaster, Ng2Cable } from "ng2-cable";
+import { apiHostUrl } from "../../environment";
 
 @IonicPage()
 @Component({
@@ -59,7 +60,7 @@ export class ChatPage {
   }
 
   private listenToBroadcaster() {
-    this.ng2Cable.subscribe('http://localhost:3000/cable', 'ChatChannel', {
+    this.ng2Cable.subscribe( `${apiHostUrl}/cable`, 'ChatChannel', {
       chat_id: this.chat.id
     });
     this.messagesBroadcaster.on('CreateMessage').subscribe(
