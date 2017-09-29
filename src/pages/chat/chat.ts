@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Content, IonicPage, NavParams } from 'ionic-angular';
 import { AuthService } from "../../providers/auth.service";
 import { Message } from "../../models/message.model";
 import { Chat } from "../../models/chat.model";
 import { MessageProvider } from "../../providers/message.provider";
-import { Broadcaster } from "ng2-cable";
+import { Broadcaster, Ng2Cable } from "ng2-cable";
 
 @IonicPage()
 @Component({
@@ -12,6 +12,7 @@ import { Broadcaster } from "ng2-cable";
   templateUrl: 'chat.html',
 })
 export class ChatPage {
+  @ViewChild(Content) content: Content;
   messages:Message[] = [];
   pageTitle:string;
   chat:Chat;
@@ -19,6 +20,7 @@ export class ChatPage {
   constructor(private authService: AuthService,
               private navParams: NavParams,
               private messageProvider: MessageProvider,
+              private ng2Cable: Ng2Cable,
               private messagesBroadcaster: Broadcaster) {}
 
   ionViewCanEnter() {
@@ -30,11 +32,24 @@ export class ChatPage {
     this.pageTitle = this.chat.title;
     this.getMessages();
     this.listenToBroadcaster();
+    this.scrollToBottom();
+  }
+
+  ionViewDidLeave() {
+    this.ng2Cable.unsubscribe();
   }
 
   sendMessage(newMessageText: string) {
     if (newMessageText) {
       this.messageProvider.create(newMessageText, this.authService.currentUser.uid, this.chat.id).subscribe();
+    }
+  }
+
+  getMessageClass(message: Message):string {
+    if (message.userId == this.authService.currentUser.uid) {
+      return("pull-right");
+    }else {
+      return("pull-left");
     }
   }
 
@@ -44,10 +59,20 @@ export class ChatPage {
   }
 
   private listenToBroadcaster() {
+    this.ng2Cable.subscribe('http://localhost:3000/cable', 'ChatChannel', {
+      chat_id: this.chat.id
+    });
     this.messagesBroadcaster.on('CreateMessage').subscribe(
       (message: Message) => {
         this.messages.push(message);
+        this.scrollToBottom();
       }
     );
+  }
+
+  private scrollToBottom() {
+    setTimeout(() => {
+      if (this.content._scroll) this.content.scrollToBottom();
+    }, 100);
   }
 }
