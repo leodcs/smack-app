@@ -17,6 +17,7 @@ import { UserProvider } from '../providers/user.provider';
 import { HttpModule } from "@angular/http";
 import { ChatProvider } from "../providers/chat.provider";
 import { MessageProvider } from '../providers/message.provider';
+import { Broadcaster, Ng2Cable } from "ng2-cable";
 
 @NgModule({
   declarations: [
@@ -28,9 +29,6 @@ import { MessageProvider } from '../providers/message.provider';
       platforms: {
         ios: {
           backButtonText: 'Voltar'
-        },
-        android: {
-          tabsPlacement: 'top'
         }
       }
     }),
@@ -53,7 +51,9 @@ import { MessageProvider } from '../providers/message.provider';
     AuthService,
     UserProvider,
     ChatProvider,
-    MessageProvider
+    MessageProvider,
+    Ng2Cable,
+    Broadcaster
   ]
 })
 export class AppModule {}
