@@ -4,7 +4,8 @@ import { AuthService } from "../../providers/auth.service";
 import { Message } from "../../models/message.model";
 import { Chat } from "../../models/chat.model";
 import { MessageProvider } from "../../providers/message.provider";
-import { Broadcaster } from "ng2-cable";
+import { Broadcaster, Ng2Cable } from "ng2-cable";
+import { apiHostUrl } from "../../environment";
 
 @IonicPage()
 @Component({
@@ -21,10 +22,15 @@ export class ChatPage {
   constructor(private authService: AuthService,
               private navParams: NavParams,
               private messageProvider: MessageProvider,
+              private ng2Cable: Ng2Cable,
               private messagesBroadcaster: Broadcaster) {}
 
   ionViewCanEnter() {
     return this.authService.isAuthenticated();
+  }
+
+  ionViewDidLeave() {
+    this.ng2Cable.unsubscribe();
   }
 
   ionViewDidEnter() {
@@ -35,6 +41,9 @@ export class ChatPage {
     this.chat = this.navParams.get('chat');
     this.pageTitle = this.chat.title;
     this.getMessages();
+    this.ng2Cable.subscribe(`${apiHostUrl}/cable`, 'ChatChannel', {
+      chat_id: this.chat.id
+    });
     this.listenToBroadcaster();
   }
 
