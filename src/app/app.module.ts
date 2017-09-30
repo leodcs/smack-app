@@ -18,6 +18,7 @@ import { HttpModule } from "@angular/http";
 import { ChatProvider } from "../providers/chat.provider";
 import { MessageProvider } from '../providers/message.provider';
 import { Broadcaster, Ng2Cable } from "ng2-cable";
+import { NativeStorage } from "@ionic-native/native-storage";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { Broadcaster, Ng2Cable } from "ng2-cable";
     ChatProvider,
     MessageProvider,
     Ng2Cable,
-    Broadcaster
+    Broadcaster,
+    NativeStorage
   ]
 })
 export class AppModule {}

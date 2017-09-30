@@ -5,6 +5,10 @@
 </ion-header>
 
 <ion-content padding no-bounce>
+  <div text-center *ngIf="!finishLoadingMessages">
+    <ion-spinner></ion-spinner>
+    <p>Carregando mensagens</p>
+  </div>
   <ion-list no-lines>
     <ion-item *ngFor="let message of messages">
       <h4 [ngClass]="getMessageClass(message)">{{ message.text }}</h4>

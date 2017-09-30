@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { AngularFireAuth } from "angularfire2/auth";
 import { BaseService } from "./base.service";
+import { Ng2Cable } from "ng2-cable";
 
 @Injectable()
 export class AuthService extends BaseService {

@@ -4,8 +4,7 @@ import { AuthService } from "../../providers/auth.service";
 import { Message } from "../../models/message.model";
 import { Chat } from "../../models/chat.model";
 import { MessageProvider } from "../../providers/message.provider";
-import { Broadcaster, Ng2Cable } from "ng2-cable";
-import { apiHostUrl } from "../../environment";
+import { Broadcaster } from "ng2-cable";
 
 @IonicPage()
 @Component({
@@ -17,15 +16,19 @@ export class ChatPage {
   messages:Message[] = [];
   pageTitle:string;
   chat:Chat;
+  finishLoadingMessages:boolean = false;
 
   constructor(private authService: AuthService,
               private navParams: NavParams,
               private messageProvider: MessageProvider,
-              private ng2Cable: Ng2Cable,
               private messagesBroadcaster: Broadcaster) {}
 
   ionViewCanEnter() {
     return this.authService.isAuthenticated();
+  }
+
+  ionViewDidEnter() {
+    this.scrollToBottom();
   }
 
   ionViewDidLoad() {
@@ -33,11 +36,6 @@ export class ChatPage {
     this.pageTitle = this.chat.title;
     this.getMessages();
     this.listenToBroadcaster();
-    this.scrollToBottom();
-  }
-
-  ionViewDidLeave() {
-    this.ng2Cable.unsubscribe();
   }
 
   sendMessage(newMessageText: string) {
@@ -47,7 +45,7 @@ export class ChatPage {
   }
 
   getMessageClass(message: Message):string {
-    if (message.userId == this.authService.currentUser.uid) {
+    if (this.authService.isAuthenticated() && (message.userId == this.authService.currentUser.uid)) {
       return("pull-right");
     }else {
       return("pull-left");
@@ -56,13 +54,13 @@ export class ChatPage {
 
   private getMessages() {
       this.messageProvider.getMessages(this.chat.id)
-        .subscribe((messages: Message[]) => this.messages = messages);
+        .subscribe((messages: Message[]) => {
+          this.messages = messages;
+          this.finishLoadingMessages = true;
+        });
   }
 
   private listenToBroadcaster() {
-    this.ng2Cable.subscribe( `${apiHostUrl}/cable`, 'ChatChannel', {
-      chat_id: this.chat.id
-    });
     this.messagesBroadcaster.on('CreateMessage').subscribe(
       (message: Message) => {
         this.messages.push(message);
@@ -72,8 +70,6 @@ export class ChatPage {
   }
 
   private scrollToBottom() {
-    setTimeout(() => {
-      if (this.content._scroll) this.content.scrollToBottom();
-    }, 100);
+    if (this.content._scroll) this.content.scrollToBottom(0);
   }
 }
