@@ -5,7 +5,7 @@ import { Chat } from "../../models/chat.model";
 import { UserProvider } from "../../providers/user.provider";
 import { ChatPage } from "../chat/chat";
 import { ChatProvider } from "../../providers/chat.provider";
-import { AuthService } from "../../providers/auth.service";
+import { AuthProvider } from "../../providers/auth.provider";
 
 @IonicPage()
 @Component({
@@ -20,28 +20,28 @@ export class UsersPage {
   constructor(private navCtrl: NavController,
               private userProvider: UserProvider,
               private chatProvider: ChatProvider,
-              private authService: AuthService) {}
+              private authProvider: AuthProvider) {}
 
   ionViewCanEnter() {
-    return this.authService.isAuthenticated();
+    return this.authProvider.isAuthenticated();
   }
 
   ionViewWillLoad() {
     this.userProvider.getUsers()
-      .subscribe((allUsers) => {
-        this.users = allUsers.filter((user: User) => user.uid !== this.authService.currentUser.uid);
-        this.finishLoadingUsers = true;
-      })
+      .subscribe((users) => {
+        this.users = users;
+        this.finishLoadingUsers = true
+      });
   }
 
   onUserClick(recipientUser: User):void {
-    this.chatProvider.findChat(this.authService.currentUser.uid, recipientUser.uid)
+    this.chatProvider.findChatWith(recipientUser)
       .subscribe((existingChat) => {
         if (existingChat) {
           this.chat = existingChat;
           this.navCtrl.push(ChatPage, { chat: this.chat });
         }else{
-          this.chatProvider.createChat(this.authService.currentUser.uid, recipientUser.uid)
+          this.chatProvider.createChatWith(recipientUser)
             .subscribe((newChat: Chat) => {
               this.chat = newChat;
               this.navCtrl.push(ChatPage, { chat: this.chat });

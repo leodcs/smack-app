@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
-import { AuthService } from "../../providers/auth.service";
+import { AuthProvider } from "../../providers/auth.provider";
 
 @IonicPage()
 @Component({
@@ -12,10 +12,10 @@ export class HomePage {
   chatsRoot = 'ChatsPage';
   usersRoot = 'UsersPage';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authProvider: AuthProvider) {}
 
   ionViewCanEnter() {
-    return this.authService.isAuthenticated();
+    return this.authProvider.isAuthenticated();
   }
 
 }

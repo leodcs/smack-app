@@ -3,7 +3,7 @@ import { IonicPage, NavController } from 'ionic-angular';
 import { Chat } from "../../models/chat.model";
 import { ChatPage } from "../chat/chat";
 import { ChatProvider } from "../../providers/chat.provider";
-import { AuthService } from "../../providers/auth.service";
+import { AuthProvider } from "../../providers/auth.provider";
 
 @IonicPage()
 @Component({
@@ -16,10 +16,10 @@ export class ChatsPage {
 
   constructor(private navCtrl: NavController,
               private chatProvider: ChatProvider,
-              private authService: AuthService) {}
+              private authProvider: AuthProvider) {}
 
   ionViewCanEnter() {
-    return this.authService.isAuthenticated();
+    return this.authProvider.isAuthenticated();
   }
 
   ionViewWillEnter() {

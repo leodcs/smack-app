@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Content, IonicPage, NavParams } from 'ionic-angular';
-import { AuthService } from "../../providers/auth.service";
 import { Message } from "../../models/message.model";
 import { Chat } from "../../models/chat.model";
 import { MessageProvider } from "../../providers/message.provider";
 import { Broadcaster, Ng2Cable } from "ng2-cable";
-import { apiHostUrl } from "../../environment";
+import { apiBasePath } from "../../environment";
+import { AuthProvider } from "../../providers/auth.provider";
 
 @IonicPage()
 @Component({
@@ -19,14 +19,14 @@ export class ChatPage {
   chat:Chat;
   finishLoadingMessages:boolean = false;
 
-  constructor(private authService: AuthService,
+  constructor(private authProvider: AuthProvider,
               private navParams: NavParams,
               private messageProvider: MessageProvider,
               private ng2Cable: Ng2Cable,
               private messagesBroadcaster: Broadcaster) {}
 
   ionViewCanEnter() {
-    return this.authService.isAuthenticated();
+    return this.authProvider.isAuthenticated();
   }
 
   ionViewDidLeave() {
@@ -41,7 +41,7 @@ export class ChatPage {
     this.chat = this.navParams.get('chat');
     this.pageTitle = this.chat.title;
     this.getMessages();
-    this.ng2Cable.subscribe(`${apiHostUrl}/cable`, 'ChatChannel', {
+    this.ng2Cable.subscribe(`${apiBasePath}/cable`, 'ChatChannel', {
       chat_id: this.chat.id
     });
     this.listenToBroadcaster();
@@ -49,15 +49,17 @@ export class ChatPage {
 
   sendMessage(newMessageText: string) {
     if (newMessageText) {
-      this.messageProvider.create(newMessageText, this.authService.currentUser.uid, this.chat.id).subscribe();
+      this.messageProvider.create(newMessageText, this.authProvider.currentUser.uid, this.chat.id).subscribe();
     }
   }
 
   getMessageClass(message: Message):string {
-    if (this.authService.isAuthenticated() && (message.userId == this.authService.currentUser.uid)) {
-      return("pull-right");
-    }else {
-      return("pull-left");
+    if (this.authProvider.isAuthenticated()) {
+      if (message.userId == this.authProvider.currentUser.id) {
+        return("pull-right");
+      }else {
+        return("pull-left");
+      }
     }
   }
 

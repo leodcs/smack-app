@@ -1,11 +1,11 @@
 import { AlertController, App } from "ionic-angular";
-import { AuthService } from "../providers/auth.service";
 import { SignInPage } from "../pages/sign-in/sign-in";
+import { AuthProvider } from "../providers/auth.provider";
 
 export abstract class BaseComponent {
 
   constructor(public alertCtrl: AlertController,
-              public authService: AuthService,
+              public authProvider: AuthProvider,
               public appCtrl: App) {
   }
 
@@ -20,8 +20,8 @@ export abstract class BaseComponent {
         {
           text: "Sim",
           handler: () => {
-            this.authService.signOut()
-              .then(()=>{
+            this.authProvider.signOut()
+              .subscribe(()=>{
                 this.appCtrl.getRootNav().setRoot(SignInPage);
               });
           }

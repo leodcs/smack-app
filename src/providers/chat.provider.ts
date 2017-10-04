@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { BaseProvider } from "./base.provider";
-import { Http } from "@angular/http";
-import { apiHostUrl } from "../environment";
-import { AuthService } from "./auth.service";
+import { TokenService } from "./token.service";
+import { User } from "../models/user.model";
 
 @Injectable()
 export class ChatProvider extends BaseProvider {
-  resourceUrl:string = apiHostUrl + "/chats";
+  resourceUrl:string = "/api/chats";
 
-  constructor(private http: Http,
-              private authService: AuthService) {
+  constructor(private tokenService: TokenService) {
     super();
   }
 
-  createChat(firstUserUid:string, secondUserUid:string) {
-    return this.http.post(this.resourceUrl,
+  createChatWith(recipientUser:User) {
+    return this.tokenService._service.post(this.resourceUrl,
       {
         "chat": {
           "chat_users_attributes":
             [
               {
-                "user_uid": firstUserUid
+                "user_id": this.tokenService._service.currentUserData.id
               },
               {
-                "user_uid": secondUserUid
+                "user_id": recipientUser.id
               }
             ]
         }
@@ -31,21 +29,13 @@ export class ChatProvider extends BaseProvider {
     ).map(this.extractData);
   }
 
-  findChat(firstUserUid:string, secondUserUid:string) {
-    return this.http.get(this.resourceUrl + `/${firstUserUid}/${secondUserUid}`)
+  findChatWith(secondUser: User) {
+    return this.tokenService._service.get(this.resourceUrl + `/${secondUser.id}`)
       .map(this.extractData);
   }
 
   getChats() {
-    return this.http.get(`${apiHostUrl}/${this.authService.currentUser.uid}/chats`)
+    return this.tokenService._service.get(this.resourceUrl)
       .map(this.extractData)
   }
-  //
-  // updateLastMessage(text:string, uuid1:string, uuid2:string){
-  //   this.getDeepChat(uuid1, uuid2)
-  //     .subscribe(() => {
-  //       this.database.object(`/chats/${uuid1}/${uuid2}`)
-  //         .update({ lastMessage: text });
-  //     });
-  // }
 }

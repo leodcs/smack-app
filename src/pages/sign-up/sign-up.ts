@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import { AuthService } from "../../providers/auth.service";
 import { emailRegexp } from "../../environment";
 import { HomePage } from "../home/home";
-import { UserProvider } from "../../providers/user.provider";
+import { AuthProvider } from "../../providers/auth.provider";
+import { User } from "../../models/user.model";
 
 @IonicPage()
 @Component({
@@ -16,12 +16,11 @@ export class SignUpPage {
   signUpForm:FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthService,
               private toastCtrl: ToastController,
               private loadingCtrl: LoadingController,
               private alertCtrl: AlertController,
               private navCtrl: NavController,
-              private userProvider: UserProvider) {
+              private authProvider: AuthProvider) {
     this.signUpForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -34,27 +33,25 @@ export class SignUpPage {
     const loading = this.loadingCtrl.create({content: "Criando cadastro..."});
     const formUser = this.signUpForm.value;
     loading.present().then(() => {
-      this.authService.signUp(formUser.email, formUser.password)
-        .then((user) => {
-          // formUser.uid = user.uid;
-          delete formUser.password;
-          const uuid:string = user.uid;
-          this.userProvider.createUser(formUser, uuid)
+      this.authProvider.signUp(formUser.name, formUser.email, formUser.password, formUser.username)
+        .subscribe((user: User) => {
+          this.toastCtrl.create({
+            message: "Cadastrado com sucesso.",
+            duration: 1500
+          }).present();
+          this.authProvider.signIn(formUser.email, formUser.password)
             .subscribe(() => {
-              this.toastCtrl.create({
-                message: "Cadastrado com sucesso.",
-                duration: 2000
-              }).present();
               this.navCtrl.setRoot(HomePage).then(() => {
                 loading.dismiss();
               });
             });
-        })
-        .catch((error: any) => {
+        },
+        (error) => {
+          console.log(error);
           loading.dismiss();
           this.alertCtrl.create({
             title: "Erro!",
-            message: error,
+            message: error._body,
             buttons: ['Ok']
           }).present();
         });

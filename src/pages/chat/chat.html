@@ -1,7 +1,7 @@
 <ion-header>
-
-  <custom-logged-header [title]="pageTitle"></custom-logged-header>
-
+  <ion-navbar class="ios-navbar">
+    <ion-title class="ios-title"> {{ pageTitle }}</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding no-bounce>
@@ -22,7 +22,6 @@
       <ion-input type="text"
                  placeholder="Mensagem..."
                  [(ngModel)]="newMessageText"
-                 autofocus="true"
                  (keyup.enter)="sendMessage(newMessageText); newMessageText=''"></ion-input>
       <button icon-only ion-button item-right color="dark" (click)="sendMessage(newMessageText); newMessageText=''">
         <ion-icon name="send"></ion-icon>

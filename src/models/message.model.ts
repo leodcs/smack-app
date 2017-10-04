@@ -1,5 +1,5 @@
 export class Message {
-  constructor(public userId: string,
+  constructor(public userId:number,
               public text:string,
               public createdAt:string) {}
 }

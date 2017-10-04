@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BaseComponent } from "../base.component";
 import { AlertController, App } from "ionic-angular";
-import { AuthService } from "../../providers/auth.service";
+import { AuthProvider } from "../../providers/auth.provider";
 
 @Component({
   selector: 'custom-logged-header',
@@ -11,9 +11,9 @@ export class CustomLoggedHeaderComponent extends BaseComponent {
   @Input() title: string;
 
   constructor(public alertCtrl: AlertController,
-              public authService: AuthService,
+              public authProvider: AuthProvider,
               public app: App) {
-    super(alertCtrl, authService, app);
+    super(alertCtrl, authProvider, app);
   }
 
 }
