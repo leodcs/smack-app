@@ -1,0 +1,4 @@
+<div class="text" [ngClass]="getMessageClass()">
+  <p>{{ message.text }}</p>
+  <p class="timestamp">{{ message.createdAt | date: 'dd/MM/y H:mm' }}</p>
+</div>

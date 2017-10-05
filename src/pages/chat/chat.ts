@@ -53,16 +53,6 @@ export class ChatPage {
     }
   }
 
-  getMessageClass(message: Message):string {
-    if (this.authProvider.isAuthenticated()) {
-      if (message.userId == this.authProvider.currentUser.id) {
-        return("pull-right");
-      }else {
-        return("pull-left");
-      }
-    }
-  }
-
   private getMessages() {
       this.messageProvider.getMessages(this.chat.id)
         .subscribe((messages: Message[]) => {

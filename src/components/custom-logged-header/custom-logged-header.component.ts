@@ -5,7 +5,7 @@ import { AuthProvider } from "../../providers/auth.provider";
 
 @Component({
   selector: 'custom-logged-header',
-  templateUrl: 'custom-logged-header.html'
+  templateUrl: 'custom-logged-header.component.html'
 })
 export class CustomLoggedHeaderComponent extends BaseComponent {
   @Input() title: string;
