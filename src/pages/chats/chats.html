@@ -4,7 +4,7 @@
 
   <ion-toolbar>
     <ion-searchbar
-      placeholder="Busque aqui"
+      placeholder="Busque conversas aqui..."
       [showCancelButton]="true"
       [animated]="true"
       cancelButtonText="Cancelar"
@@ -22,10 +22,18 @@
   <ion-list no-lines>
     <button ion-item *ngFor="let chat of chats" (click)="onOpenChat(chat)">
       <h2>{{ chat.title }}</h2>
-      <p *ngIf="chat.lastMessage">{{ chat.createdAt | date: 'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
+      <p *ngIf="chat.lastMessage; else customMessage">{{ chat.createdAt | date: 'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
+      <ng-template #customMessage>
+        <p>Sem mensagens ainda...</p>
+      </ng-template>
+      <ion-badge *ngIf="chat.unreadMessageCount"
+                 item-end
+                 color="danger">
+        {{ chat.unreadMessageCount }}
+      </ion-badge>
     </button>
 
-     <button
+    <button
        ion-item
        *ngFor="let user of users"
        (click)="onUserClick(user)">

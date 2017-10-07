@@ -5,6 +5,7 @@ export class Chat {
               public users: User[],
               public id?: number,
               public lastMessage?: string,
-              public createdAt?:string) {
+              public createdAt?:string,
+              public unreadMessageCount?:number) {
   }
 }

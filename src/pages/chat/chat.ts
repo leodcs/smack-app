@@ -54,23 +54,28 @@ export class ChatPage {
   }
 
   private getMessages() {
-      this.messageProvider.getMessages(this.chat.id)
-        .subscribe((messages: Message[]) => {
-          this.messages = messages;
-          this.finishLoadingMessages = true;
-        });
+    this.messageProvider.getMessages(this.chat.id)
+      .subscribe((messages: Message[]) => {
+        this.messages = messages;
+        this.finishLoadingMessages = true;
+      });
   }
 
   private listenToBroadcaster() {
     this.messagesBroadcaster.on('CreateMessage').subscribe(
-      (message: Message) => {
-        this.messages.push(message);
+      (newMessage: Message) => {
+        this.messages.push(newMessage);
         this.scrollToBottom();
+        if (newMessage.userId != this.authProvider.currentUser.id) {
+          this.messageProvider.updateMessage(this.chat.id, newMessage.id);
+        }
       }
     );
   }
 
   private scrollToBottom() {
-    if (this.content._scroll) this.content.scrollToBottom(0);
+    return setTimeout(() => {
+      if (this.content._scroll) this.content.scrollToBottom(0);
+    }, 50);
   }
 }
