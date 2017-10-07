@@ -6,6 +6,8 @@ import { ChatProvider } from "../../providers/chat.provider";
 import { AuthProvider } from "../../providers/auth.provider";
 import { UserProvider } from "../../providers/user.provider";
 import { User } from "../../models/user.model";
+import { Broadcaster, Ng2Cable } from "ng2-cable";
+import { apiBasePath } from "../../environment";
 
 @IonicPage()
 @Component({
@@ -21,7 +23,9 @@ export class ChatsPage {
   constructor(private navCtrl: NavController,
               private chatProvider: ChatProvider,
               private authProvider: AuthProvider,
-              private userProvider: UserProvider) {}
+              private userProvider: UserProvider,
+              private ng2Cable: Ng2Cable,
+              private inboxBroadcaster: Broadcaster) {}
 
   ionViewCanEnter() {
     return this.authProvider.isAuthenticated();
@@ -29,6 +33,17 @@ export class ChatsPage {
 
   ionViewWillEnter() {
     this.setChats();
+  }
+
+  ionViewDidLoad() {
+    this.ng2Cable.subscribe(`${apiBasePath}/cable`, 'InboxChannel', {
+      user_id: this.authProvider.currentUser.id
+    });
+    this.listenToBroadcaster();
+  }
+
+  ionViewWillUnload() {
+    this.ng2Cable.unsubscribe();
   }
 
   onOpenChat(chat: Chat):void {
@@ -83,6 +98,11 @@ export class ChatsPage {
   }
 
   private isMatchingStrings(string1: string, string2: string) {
-    return(string1.toLowerCase().indexOf(string2.toLowerCase()) > -1)
+    return(string1.toLowerCase().indexOf(string2.toLowerCase()) > -1);
+  }
+
+  private listenToBroadcaster() {
+    this.inboxBroadcaster.on('UpdateChat')
+      .subscribe(() => this.setChats());
   }
 }
