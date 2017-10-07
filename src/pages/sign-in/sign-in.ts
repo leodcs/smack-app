@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController } from 'ionic-angular';
 import { SignUpPage } from "../sign-up/sign-up";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { HomePage } from "../home/home";
 import { emailRegexp } from "../../environment";
 import { AuthProvider } from "../../providers/auth.provider";
+import { ChatsPage } from "../chats/chats";
 
 @IonicPage()
 @Component({
@@ -14,7 +14,7 @@ import { AuthProvider } from "../../providers/auth.provider";
 export class SignInPage {
   signUpPage = SignUpPage;
   signInForm: FormGroup;
-  homePage = HomePage;
+  homePage = ChatsPage;
 
   constructor(private formBuilder: FormBuilder,
               private loadingCtrl: LoadingController,
@@ -32,7 +32,7 @@ export class SignInPage {
     loading.present();
     this.authProvider.signIn(this.signInForm.value.email, this.signInForm.value.password)
       .subscribe(()=> {
-        this.navCtrl.setRoot(HomePage);
+        this.navCtrl.setRoot(ChatsPage);
         loading.dismiss();
       },
       (res) => {

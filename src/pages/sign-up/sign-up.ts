@@ -3,9 +3,9 @@ import { AlertController, IonicPage, LoadingController, NavController, ToastCont
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { emailRegexp } from "../../environment";
-import { HomePage } from "../home/home";
 import { AuthProvider } from "../../providers/auth.provider";
 import { User } from "../../models/user.model";
+import { ChatsPage } from "../chats/chats";
 
 @IonicPage()
 @Component({
@@ -41,7 +41,7 @@ export class SignUpPage {
           }).present();
           this.authProvider.signIn(formUser.email, formUser.password)
             .subscribe(() => {
-              this.navCtrl.setRoot(HomePage).then(() => {
+              this.navCtrl.setRoot(ChatsPage).then(() => {
                 loading.dismiss();
               });
             });

@@ -29,8 +29,8 @@ export class ChatProvider extends BaseProvider {
     ).map(this.extractData);
   }
 
-  findChatWith(secondUser: User) {
-    return this.tokenService._service.get(this.resourceUrl + `/${secondUser.id}`)
+  findChatWith(recipientUser: User) {
+    return this.tokenService._service.get(this.resourceUrl + `/${recipientUser.id}`)
       .map(this.extractData);
   }
 

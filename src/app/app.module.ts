@@ -7,7 +7,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { SignUpPageModule } from "../pages/sign-up/sign-up.module";
 import { SignInPageModule } from "../pages/sign-in/sign-in.module";
-import { HomePageModule } from "../pages/home/home.module";
 import { ChatPageModule } from "../pages/chat/chat.module";
 import { UserProvider } from '../providers/user.provider';
 import { HttpModule } from "@angular/http";
@@ -17,6 +16,7 @@ import { Broadcaster, Ng2Cable } from "ng2-cable";
 import { A2tUiModule, Angular2TokenService } from "angular2-token";
 import { AuthProvider } from '../providers/auth.provider';
 import { TokenService } from "../providers/token.service";
+import { ChatsPageModule } from "../pages/chats/chats.module";
 
 @NgModule({
   declarations: [
@@ -31,12 +31,12 @@ import { TokenService } from "../providers/token.service";
         }
       }
     }),
-    HomePageModule,
     SignUpPageModule,
     SignInPageModule,
     HttpModule,
     ChatPageModule,
-    A2tUiModule
+    A2tUiModule,
+    ChatsPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

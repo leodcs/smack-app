@@ -2,8 +2,17 @@
 
   <custom-logged-header title="Conversas"></custom-logged-header>
 
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Busque aqui"
+      [showCancelButton]="true"
+      [animated]="true"
+      cancelButtonText="Cancelar"
+      debounce="100"
+      (ionInput)="onSearchInput($event)">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
-
 
 <ion-content padding>
   <div text-center *ngIf="!finishLoadingChats">
@@ -13,14 +22,14 @@
   <ion-list no-lines>
     <button ion-item *ngFor="let chat of chats" (click)="onOpenChat(chat)">
       <h2>{{ chat.title }}</h2>
-      <p *ngIf="chat.lastMessage; else customMessage">{{ chat.createdAt | date: 'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
-      <ng-template #customMessage>
-        <p>Sem mensagens ainda...</p>
-      </ng-template>
+      <p *ngIf="chat.lastMessage">{{ chat.createdAt | date: 'dd/MM/y H:mm' }} - {{ chat.lastMessage }}</p>
     </button>
-    <div *ngIf="!chats.length && finishLoadingChats">
-      <p>Você ainda não iniciou uma conversa.</p>
-      <p>Clique na aba de <b>Usuários</b> para buscar um usuário cadastrado e iniciar uma conversa com ele.</p>
-    </div>
+
+     <button
+       ion-item
+       *ngFor="let user of users"
+       (click)="onUserClick(user)">
+        {{ user.name }}
+     </button>
   </ion-list>
 </ion-content>
